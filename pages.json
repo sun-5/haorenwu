@@ -1,0 +1,72 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+
+			}
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+
+
+			}
+
+		}, {
+			"path": "pages/task/task",
+			"style": {
+				"navigationBarTitleText": "任务大厅" 
+				 
+			}
+
+		}, {
+			"path": "pages/add/add",
+			"style": {
+				"navigationBarTitleText": "任务发布"
+
+			}
+
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "好任务平台",
+		"navigationBarBackgroundColor": "#4080ff",
+		"backgroundColor": "#F8F8F8",
+		// "navigationStyle": "custom",
+		"app-plus": {
+			"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+		}
+	},
+	"tabBar": {
+		"color": "#808080",
+		"selectedColor": "#007AFF",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/tabbar/index.png",
+				"selectedIconPath": "static/images/tabbar/index_s.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/task/task",
+				"iconPath": "static/images/tabbar/task.png",
+				"selectedIconPath": "static/images/tabbar/task_s.png",
+				"text": "任务大厅"
+			},
+			{
+				"pagePath": "pages/add/add",
+				"iconPath": "static/images/tabbar/add.png",
+				"selectedIconPath": "static/images/tabbar/add_s.png",
+				"text": "任务发布"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/images/tabbar/my.png",
+				"selectedIconPath": "static/images/tabbar/my_s.png",
+				"text": "个人中心"
+			}
+		]
+	}
+}
