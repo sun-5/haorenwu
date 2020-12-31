@@ -2,9 +2,11 @@
 	<view class="container">
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 			<!-- 搜索框 -->
-			<view class="searchBox"><search></search></view>
+			<view class="bg">
+			<view class="searchBox"><search ></search></view>
 			<!-- banner -->
 			<view class="bannerBox"><banner></banner></view>
+			</view>
 			<!-- 导航图标 -->
 			<view class="navBox"><navBox></navBox></view>
 			<!-- 推荐任务 -->
@@ -152,6 +154,16 @@ export default {
 	height: 100%;
 	overflow: hidden;
 	padding: 0;
+}
+.container .bg{
+	background-image: url(/static/images/bg.png);
+	background-position: center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	padding-bottom: 20rpx;
+}
+.bannerBox{
+	/* background-color: #0081FF; */
 }
 .topMod {
 	display: flex;

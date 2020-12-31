@@ -57,8 +57,8 @@ export default {
 }
 
 .btn-area .item .navImg {
-	width: 120rpx;
-	height: 120rpx;
+	width: 150rpx;
+	height: 150rpx;
 	display: block;
 	margin: 0 auto;
 }

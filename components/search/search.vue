@@ -1,7 +1,7 @@
 <template>
 	<view class="search">
 		<image :src="imgSrc" v-show="showImg"></image>
-		<input type="text"v-model='keyword'@confirm='subSearch' @blur='recover' confirm-type="search" :placeholder="placeholder" @focus="clearPlace"  placeholder-class="place" />
+		<input type="text" v-model='keyword' @confirm='subSearch' @blur='recover' confirm-type="search" :placeholder="placeholder" @focus="clearPlace"  placeholder-class="place" />
 	</view>
 </template>
 
@@ -31,8 +31,8 @@ export default {
 			}
 			
 		},
-		subSearch(event){
-			var keyword = event.detail.value;
+		subSearch(e){
+			var keyword = e.detail.value;
 			console.log(keyword)
 			//uni.request(){
 			//	请求数据并跳转页面
