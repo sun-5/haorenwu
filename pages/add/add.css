@@ -1,0 +1,191 @@
+.addtip {
+	border-top: 1rpx solid #dedede;
+	padding-top: 20rpx;
+	padding-bottom: 160rpx;
+}
+
+radio-group .title {
+	font-size: 28rpx;
+	width: 100%;
+	padding-left: 20rpx;
+}
+
+.addtip {
+	line-height: 48rpx;
+}
+
+.starttime {
+	position: relative;
+
+}
+
+.starttime input {
+	text-align: end;
+	margin-right: 20rpx;
+	font-size: 28upx;
+	color: #555;
+
+}
+
+.starttime::after {
+	font-family: cuIcon;
+	display: block;
+	content: "\e6a3";
+	position: absolute;
+	font-size: 34rpx;
+	color: #8799a3;
+	line-height: 100rpx;
+	width: 60rpx;
+	text-align: center;
+	top: 0;
+	bottom: 0;
+	right: 15rpx;
+	margin: auto;
+}
+
+.cu-form-group .title {
+	min-width: calc(4em + 15px);
+}
+
+.checkbox,
+.checkbox2 {
+	padding: 0 30rpx;
+	box-sizing: border-box;
+	width: 100%;
+	background-color: #fff;
+}
+
+.checkbox {
+	padding-bottom: 40rpx;
+}
+
+.list-item {
+	display: inline-block;
+	background-color: #fff;
+	border-radius: 40rpx;
+	text-align: center;
+	margin: 0 1.5%;
+	margin-top: 20rpx;
+	width: 17%;
+	height: 60rpx;
+	line-height: 60rpx;
+	border: #39b54a 1rpx solid;
+	box-sizing: border-box;
+	color: #555;
+}
+
+.checkbox .active {
+	background-color: #39b54a;
+	color: #fff;
+}
+
+.checkbox2 {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+#phonelist {
+	width: 25%;
+	/* margin-right: 5%; */
+	margin-top: 0;
+	border-radius: 40rpx;
+	border: #39b54a 1rpx solid;
+}
+
+.checkbox2 .active {
+	background-color: #39b54a;
+	color: #fff;
+}
+
+.cu-btn.lg {
+	height: 60rpx;
+	margin: 0 30rpx;
+}
+
+.cu-timeline {
+	width: 100%;
+}
+
+.cu-timeline>.cu-item::before {
+	display: block;
+	content: '1';
+	border-radius: 50%;
+	color: #FFF;
+	background-color: #39B54A;
+	box-shadow: 6upx 6upx 8upx rgba(48, 156, 63, 0.2);
+}
+
+.cu-timeline>.cu-item1::before {
+	content: '1';
+}
+
+.cu-timeline>.cu-item2::before {
+	content: '2';
+}
+
+.cu-timeline>.cu-item3::before {
+	content: '3';
+}
+
+.cu-timeline>.cu-item4::before {
+	content: '4';
+}
+
+.cu-timeline>.cu-item5::before {
+	content: '5';
+}
+
+.cu-timeline>.cu-item6::before {
+	content: '6';
+}
+
+.cu-timeline>.cu-item7::before {
+	content: '7';
+}
+
+.cu-timeline>.cu-item8::before {
+	content: '8';
+}
+
+.cu-timeline>.cu-item9::before {
+	content: '9';
+}
+
+.tabbar {
+	position: fixed;
+	bottom: 50px;
+	left: 0;
+	right: 0;
+	z-index: 200;
+}
+
+.cu-bar .addbtn {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.padding-xl textarea {
+	max-height: 200rpx;
+}
+
+.cu-timeline .cu-item {
+	position: relative;
+}
+
+.cu-timeline .cu-tag {
+	position: absolute;
+	top: 10rpx;
+	right:10rpx;
+	z-index: 10;
+	padding: 0px 8rpx;
+	height: 40rpx;
+}
+
+.cu-timeline .content .dolistimg {
+	padding: 20rpx;
+	box-sizing: border-box;
+	width: 100%;
+	max-height: 800rpx;
+}

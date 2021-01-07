@@ -1,12 +1,10 @@
 .dropdown {
 	width: 100%;
-	height: 100%;
-	position: relative;
+	position: fixed;
+	z-index: 200;
 }
 .dropdown .listtab{
 	position: fixed;
-	top:calc(44px + constant(safe-area-inset-top));
-	top: calc(44px + env(safe-area-inset-top));
 	left: 0;
 	z-index: 20;
 	width: 100%;
@@ -47,11 +45,12 @@
 .list-container {
 	z-index: 9;
 	width: 100%;
+ 
 	position: absolute;
 	top: 100rpx;
 	left: 0;
 	overflow: hidden;
-	height: calc(100vh - 100rpx);
+ 
 }
 
 .typelist {

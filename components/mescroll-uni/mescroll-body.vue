@@ -108,6 +108,7 @@
 				windowHeight: 0, // 可使用窗口的高度
 				windowBottom: 0, // 可使用窗口的底部位置
 				statusBarHeight: 0 // 状态栏高度
+				
 			};
 		},
 		props: {

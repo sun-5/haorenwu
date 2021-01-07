@@ -1,9 +1,14 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg2-blue" :isBack="false"
+			><block slot="backText">返回</block
+			><block slot="content">任务大厅</block>
+			</cu-custom>
 		<dropdown></dropdown>
-		<mescroll-body top="100"  ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
+		<mescroll-body top="100" ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption">
 			<tasklist :taskdata="dataList" class="listbox"></tasklist>
 		</mescroll-body>
+		 
 	</view>
 </template>
 
@@ -15,8 +20,11 @@ export default {
  
 	data() {
 		return {
+			PageCur: "task",
 			// 下拉刷新的配置(可选, 绝大部分情况无需配置)
-			downOption: {},
+			downOption: {
+				 
+			},
 			// 上拉加载的配置(可选, 绝大部分情况无需配置)
 			upOption: {
 				page: {
@@ -30,6 +38,7 @@ export default {
 			},
 			dataList: [
 				{
+					id:'1',
 					titleImg: '/static/images/banner/banner1.jpg',
 					title: '填写邀请码，完成任务获取奖金！',
 					cate: '下载',
@@ -39,6 +48,7 @@ export default {
 					resnum: 20
 				},
 				{
+					id:'2',
 					titleImg: '',
 					title: '填写邀请码，完成任务获取奖金！',
 					cate: '下载',
@@ -48,6 +58,7 @@ export default {
 					resnum: 20
 				},
 				{
+					id:'3',
 					titleImg: '',
 					title: '填写邀请码，完成任务获取奖金！',
 					cate: '下载',
@@ -57,6 +68,7 @@ export default {
 					resnum: 20
 				},
 				{
+					id:'4',
 					titleImg: '',
 					title: '填写邀请码，完成任务获取奖金！',
 					cate: '下载',
@@ -64,7 +76,8 @@ export default {
 					money: 5.8,
 					already: 15,
 					resnum: 20
-				}
+				},
+				
 			]
 		};
 	},
@@ -95,8 +108,8 @@ export default {
 					let hasNext = data.xxx;
 
 					//设置列表数据
-					if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
-					this.dataList = this.dataList.concat(curPageData); //追加新数据
+					//if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
+					//this.dataList = this.dataList.concat(curPageData); //追加新数据
 
 					// 请求成功,隐藏加载状态
 					//方法一(推荐): 后台接口有返回列表的总页数 totalPage

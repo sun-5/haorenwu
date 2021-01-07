@@ -7,7 +7,7 @@
 		</view>
 
 		<!-- 选择列表-类型 -->
-		<view class="list-container" :style="switchcheck ? '	background: rgba(0, 0, 0, 0.3);' : '	background: rgba(0, 0, 0, 0);'">
+		<view class="list-container" :style="switchcheck ? 'height: calc(100vh - 100rpx);background: rgba(0, 0, 0, 0.3);' : 'height:0;background: rgba(0, 0, 0, 0)'">
 			<view class="typelist" v-if="listindex === 0" :style="changeUp ? 'transform: translateY(-100%);' : 'transform: translateY(0);'">
 				<view class="row tips"><text>请选择任务类型(可多选)</text></view>
 				<view class="row checkbox">

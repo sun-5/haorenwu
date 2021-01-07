@@ -79,5 +79,9 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "title" : "好任务",
+        "domain" : "task.haorenwu.cn"
     }
 }
