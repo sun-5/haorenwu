@@ -28,6 +28,7 @@
 
 <script>
 	export default{
+		name:"watch-button",
 		props:{
 			text: String, //显示文本
 			rotate:{
@@ -38,7 +39,8 @@
 			bgColor:{
 				//按钮背景颜色
 				type: String,
-				default: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))",
+				//default: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))",
+				 default: "bg-gradual-blue2",
 			},
 			fontColor:{
 				//按钮字体颜色
@@ -78,8 +80,9 @@
 		overflow: hidden;
 		width:601rpx;
 		height:100rpx;
-		background:linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6));
-		box-shadow:0rpx 0rpx 13rpx 0rpx rgba(164,217,228,0.4);
+		/* background:linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6)); */
+		background:linear-gradient(to right, rgba(0, 129, 255, 0.7), rgba(85, 170, 255, 0.6));
+		box-shadow:0rpx 0rpx 13rpx 0rpx rgba(85, 170, 255, 0.4);
 		border-radius:2.5rem;
 		margin-top: 0rpx;
 	}
@@ -91,8 +94,9 @@
 		font-size: 30rpx;
 		width:100rpx;
 		height:100rpx;
-		background:linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6));
-		box-shadow:0rpx 0rpx 13rpx 0rpx rgba(164,217,228,0.4);
+		/* background:linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6)); */
+		background:linear-gradient(to right, rgba(0, 129, 255, 0.7), rgba(85, 170, 255, 0.6));
+		box-shadow:0rpx 0rpx 13rpx 0rpx rgba(85, 170, 255, 0.4);
 		border-radius:2.5rem;
 		margin-top: 0rpx;
 	}

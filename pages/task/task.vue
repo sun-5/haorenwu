@@ -17,7 +17,16 @@
 import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 export default {
 	mixins: [MescrollMixin], // 使用mixin
- 
+	onLoad() {
+		var _this = this;
+		uni.request({
+			url:_this.$host+'getTask',
+			method:"GET",
+			success:res=>{
+				_this.dataList = res.data;
+			}
+		})
+	},
 	data() {
 		return {
 			PageCur: "task",
@@ -36,49 +45,7 @@ export default {
 					error:'数据去了二次元哦~~'
 				}
 			},
-			dataList: [
-				{
-					id:'1',
-					titleImg: '/static/images/banner/banner1.jpg',
-					title: '填写邀请码，完成任务获取奖金！',
-					cate: '下载',
-					stitle: 'APP拉新',
-					money: 5.8,
-					already: 15,
-					resnum: 20
-				},
-				{
-					id:'2',
-					titleImg: '',
-					title: '填写邀请码，完成任务获取奖金！',
-					cate: '下载',
-					stitle: 'APP拉新',
-					money: 5.8,
-					already: 15,
-					resnum: 20
-				},
-				{
-					id:'3',
-					titleImg: '',
-					title: '填写邀请码，完成任务获取奖金！',
-					cate: '下载',
-					stitle: 'APP拉新',
-					money: 5.8,
-					already: 15,
-					resnum: 20
-				},
-				{
-					id:'4',
-					titleImg: '',
-					title: '填写邀请码，完成任务获取奖金！',
-					cate: '下载',
-					stitle: 'APP拉新',
-					money: 5.8,
-					already: 15,
-					resnum: 20
-				},
-				
-			]
+			dataList: []
 		};
 	},
 	methods: {

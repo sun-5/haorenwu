@@ -2,15 +2,15 @@
 	<view class="tasklist">
 		<view class="list">
 			<navigator
-				:url="'/pages/task/detail?id=' + item.id"
+				:url="'/pages/task/detail?tid=' + item.tid"
 				hover-class="none"
 				v-for="(item, index) in taskdata"
 				:key="index"
 			>
 				<image
 					class="titleImg"
-					v-if="item.titleImg"
-					:src="item.titleImg "
+					v-if="item.titleimg"
+					:src="item.titleimg "
 					mode="aspectFill"
 				></image>
 				<image
@@ -23,14 +23,13 @@
 					<text class="tasktitle">{{ item.title }}</text>
 					<view class="middle">
 						<view class="m2">
-							<view class="taskCate">{{ item.cate }}</view>
-							<view class="sTitle">{{ item.stitle }}</view>
+							<view class="taskCate">{{ item.catname }}</view>
+							<view class="sTitle">{{ item.keyword }}</view>
 						</view>
-						<text class="taskMoney">{{ item.money }}元</text>
+						<text class="taskMoney">{{ item.price }}元</text>
 					</view>
 					<text class="taskNum"
-						>{{ item.already }}人已赚/剩余数量:{{ item.resnum
-						}}</text
+						>{{ item.getnum }}人已赚/剩余数量:{{ item.resnum}}</text
 					>
 				</view>
 			</navigator>
@@ -89,7 +88,7 @@
 		display: flex;
 		flex-flow: column;
 		flex-wrap: wrap;
-		max-width: 480rpx;
+		min-width: 480rpx;
 	}
 	.taskInfo .middle {
 		display: flex;

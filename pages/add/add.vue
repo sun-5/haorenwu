@@ -21,7 +21,7 @@
 					@click="itemChange($event,index)"
 					:class="{active:aindex==index }"
 				>
-					{{ item }}
+					{{ item.catname }}
 				</view>
 			</view>
 
@@ -40,7 +40,6 @@
 					</view>
 				</view>
 			</view>
-
 			<view class="cu-form-group margin-top">
 				<view class="title">任务标题</view>
 				<input
@@ -106,11 +105,12 @@
 				<picker
 					@change="PickerChange"
 					:value="cindex"
-					:range="ttime"
+					:range="ttimelist"
 					id="ttime"
+					range-key="time"
 				>
 					<view class="picker">
-						{{cindex>-1?ttime[cindex]:'任务接单后限时完成'}}
+						{{cindex>-1?ttimelist[cindex].time:'任务接单后限时完成'}}
 					</view>
 				</picker>
 			</view>
@@ -119,11 +119,12 @@
 				<picker
 					@change="PickerChange"
 					:value="dindex"
-					:range="etime"
+					:range="etimelist"
 					id="etime"
+					range-key="time"
 				>
 					<view class="picker">
-						{{dindex>-1?etime[dindex]:'任务完成后审核时间'}}
+						{{dindex>-1?etimelist[dindex].time:'任务完成后审核时间'}}
 					</view>
 				</picker>
 			</view>
@@ -199,7 +200,7 @@
 					<view class="padding-xl">
 						<textarea
 							v-model="textinfo"
-							placeholder="请用文字描述步骤流程,不得超过30字"
+							placeholder="请用文字描述添加一个步骤,不得超过50字"
 						/>
 					</view>
 					<view class="cu-bar bg-white justify-end">
@@ -236,22 +237,19 @@
 						>
 							<text class="cuIcon-close"></text>
 						</view>
-						<view
-							class="content shadow-blur"
-							v-if="item.type=='text'"
-						>
+						<view class="content shadow-blur" v-if="item.type=='0'">
 							{{item.content}}
 						</view>
 						<view
 							class="content shadow-blur "
-							v-else-if="item.type=='image'"
+							v-else-if="item.type=='1'"
 						>
 							<image
 								@tap="ViewImage"
-								:src="item.content"
+								:src="$siteroot + item.content"
 								mode="aspectFit"
 								class="dolistimg"
-								:data-url="item.content"
+								:data-url="$siteroot + item.content"
 							></image>
 						</view>
 					</view>
@@ -308,16 +306,23 @@
 							<text class="cuIcon-close text-red"></text>
 						</view>
 					</view>
-					<view class="padding-xl">是否确认发布并预付赏金<text class="text-red">{{taskmoney}}</text>元？</view>
+					<view class="padding-xl"
+						>是否确认发布并预付赏金<text class="text-red"
+							>{{taskmoney}}</text
+						>元？</view
+					>
 					<view class="cu-bar bg-white">
 						<view
 							class="action margin-0 flex-sub  "
 							@tap="hideModal"
-							>取消</view>
+							>取消</view
+						>
 						<view
 							class="action margin-0 flex-sub text-green solid-left"
-							@tap="hideModal();wxPay()">
-							<text class="cuIcon-moneybag"></text>确认支付</view>
+							@tap="hideModal();wxPay()"
+						>
+							<text class="cuIcon-moneybag"></text>确认支付</view
+						>
 					</view>
 				</view>
 			</view>
@@ -334,12 +339,16 @@
 <script>
 	import DateTimePicker from "@/components/bory-dateTimePicker/bory-dateTimePicker.vue";
 	import SOtime from "@/utils/SOtime.js";
-
+	import { mapState, mapMutations } from "vuex";
+	let _this;
 	export default {
 		components: {
 			DateTimePicker
 		},
 		computed: {
+			//组件中使用computed获取store里的数据
+			...mapState(["hasLogin", "userinfo"]), //获取vuex状态管理中的数据
+
 			indicatorStyle() {
 				return {
 					background: "rgba(85, 170, 255, 0.2)",
@@ -360,11 +369,12 @@
 			imgList() {
 				var arr = [];
 				this.dolist.forEach((item, index) => {
-					if (item.type == "image") {
-						arr.push(item.content);
+					if (item.type == "1") {
+						//加上根域名
+						arr.push(_this.$siteroot + item.content);
 					}
 				});
-
+				//console.log(arr)
 				return arr;
 			}
 		},
@@ -376,6 +386,59 @@
 				//console.log( this.taskallinfo) 监听赏金 数据赋值
 			}
 		},
+		mounted() {
+			_this = this;
+		},
+		onShow:function(){
+			if (!this.hasLogin) {
+				//false 未登录
+				setTimeout(() => {
+					uni.showModal({
+						title: "发布提示",
+						content: "登录后方可发布任务，是否前往登陆？",
+						cancelText: "否",
+						confirmText: "是",
+						success: res => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: "/pages/login/login"
+								});
+							} else if (res.cancel) {
+								uni.switchTab({
+									url: "/pages/index/index"
+								});
+							}
+						}
+					});
+				}, 1500);
+			}
+		},
+		onLoad: function() {
+			uni.request({
+				url: this.$host + "getTtime",
+				method: "GET",
+				success: e => {
+					_this.ttimelist = e.data;
+					//console.log(_this.ttimelist);
+				}
+			});
+			uni.request({
+				url: this.$host + "getEtime",
+				method: "GET",
+				success: e => {
+					_this.etimelist = e.data;
+					//console.log(_this.etimelist);
+				}
+			});
+			uni.request({
+				url: this.$host + "getCate",
+				method: "GET",
+				success: e => {
+					_this.tasktype = e.data;
+					//console.log(e.data);
+				}
+			});
+		},
 		data() {
 			return {
 				svpercent: 0.08,
@@ -383,7 +446,7 @@
 				ptipsinfo: null,
 				pmodaltips: null,
 				textinfo: "",
-				imginfo: [],
+				imginfo: "",
 				dolist: [],
 				dateString1: "",
 				dateString2: "",
@@ -392,26 +455,18 @@
 				cindex: -1,
 				dindex: -1,
 				eindex: -1,
-				tasktype: [
-					"注册",
-					"下载",
-					"邀请",
-					"点赞",
-					"其他",
-					"其他",
-					"其他"
-				],
+				tasktype: [],
 				phonelist: ["全部", "苹果", "安卓"],
-				ttime: ["1小时", "1天", "不限时"],
-				etime: ["1天", "7天", "1个月"],
+				ttimelist: [{ id: 0, time: "30分钟" }],
+				etimelist: [{ id: 0, time: "自动通过" }],
 				switchD: false,
 				num: null,
 				price: null,
 				modalName: null,
 				taskallinfo: {},
 				next: true,
-				con: false,
-				loadModal:false
+				con: "",
+				loadModal: false
 			};
 		},
 		methods: {
@@ -419,15 +474,15 @@
 				this.loadModal = true;
 				setTimeout(() => {
 					this.loadModal = false;
-					if(!res.data){
-						this.showtips(res.msg)
+					if (!res.data) {
+						this.showtips(res.msg);
 					}
-				}, 2000)
-				
+				}, 2000);
 			},
 			check(e) {
 				//正则表达式
 				//console.log(e.detail.value)
+				e.detail.value >= 0.2 ? e.detail.value : null;
 				e.detail.value =
 					e.detail.value.match(/^\d*(\.?\d{0,2})/g)[0] || null;
 				//重新赋值给input
@@ -448,15 +503,7 @@
 				});
 				var rules = [
 					{
-						val: "type",
-						msg: "请选择任务类型！"
-					},
-					{
-						val: "type",
-						msg: "请选择任务类型！"
-					},
-					{
-						val: "type",
+						val: "catid",
 						msg: "请选择任务类型！"
 					},
 					{
@@ -484,11 +531,11 @@
 						msg: "请选择结束时间！"
 					},
 					{
-						val: "limit_time",
+						val: "ttimeid",
 						msg: "请选择任务限时！"
 					},
 					{
-						val: "check_time",
+						val: "etimeid",
 						msg: "请选择审核时间！"
 					},
 					{
@@ -513,7 +560,8 @@
 						this.showtips(rules[i].msg);
 						this.next = false; //开关关闭 不往下执行
 					} else {
-						this.con = true; //信息全部正确
+						this.con = i; //信息全部正确
+						//	console.log(this.con)
 					}
 					if (this.next == false) {
 						this.next = true; //打开开关 并终止循环 下一次重新循环验证
@@ -531,22 +579,55 @@
 			},
 			addform(e) {
 				//console.log(this.taskallinfo);
-				this.taskallinfo.dolist = this.dolist;
+				this.taskallinfo.dolist = JSON.stringify(this.dolist); //对象数组 转为json格式 后台再转为数组格式
+				var _this = this;
+				uni.getStorage({
+					key: "userinfo",
+					success: function(res) {
+						_this.taskallinfo.uid = res.data.uid;
+						_this.taskallinfo.titleimg = res.data.avator;
+					}
+				});
 				this.validate(this.taskallinfo); //验证数据对象的内容
-				if (this.con !== false) {
-					this.showModal(e);
+				if (this.con == "11") {
+					this.showModal(e); //验证完毕 无误 打开支付窗口
+				} else {
+					console.log("验证有误");
 				}
 			},
-			wxPay(){
-					var res = {data:false,msg:'赏金余额不足!请先充值赏金'};
-					setTimeout(()=>{
-						this.LoadModal(res);
-					},500)
-				
+			wxPay() {
+				// var res = {data:false,msg:'赏金余额不足!请先充值赏金'};
+				// setTimeout(()=>{
+				// 	this.LoadModal(res);
+				// },500)
+				uni.request({
+					header: {
+						"content-type": "application/x-www-form-urlencoded"
+					},
+					url: this.$host + "add",
+					method: "POST",
+					data: this.taskallinfo,
+					success: e => {
+						if (e.data.code == 1) {
+							this.showtips("发布成功");
+						} else {
+							// uni.showModal({
+							// 	content: e.data.msg,
+							// 	showCancel: false
+							// });
+						}
+					},
+					fail: e => {
+						uni.showModal({
+							content: JSON.stringify(e),
+							showCancel: false
+						});
+					}
+				});
 			},
 			RadioChange(e) {
 				this.radio = e.detail.value;
-				this.taskallinfo.radio = this.radio;
+				this.taskallinfo.radio = this.radio; //需要验证是否同意
 			},
 			showModal(e) {
 				this.modalName = e.currentTarget.dataset.target;
@@ -558,14 +639,22 @@
 				if (this.dolist.length < 9) {
 					if (val == "textinfo") {
 						//console.log(this.textinfo);
-						this.dolist.push({
-							type: "text",
-							content: this.textinfo
-						});
+						if (this.textinfo.length < 1) {
+							uni.showToast({
+								icon: "none",
+								title: "步骤不能为空！"
+							});
+						} else {
+							this.dolist.push({
+								type: "0",
+								content: this.textinfo
+							});
+							this.textinfo = "";
+						}
 					} else {
 						this.dolist.push({
-							type: "image",
-							content: this.imginfo[0]
+							type: "1",
+							content: this.imginfo
 						});
 					}
 				} else {
@@ -585,7 +674,8 @@
 					case "tasktype":
 						//console.log(index) 在任务类型中的索引
 						this.aindex = index;
-						this.taskallinfo.type = this.tasktype[index]; //选项存到数据对象中
+						//this.taskallinfo.type = this.tasktype[index]; //选项存到数据对象中
+						this.taskallinfo.catid = this.tasktype[index].catid;
 						//console.log(this.taskallinfo);
 						break;
 					case "phonelist":
@@ -601,10 +691,10 @@
 			dateTimeChange(val, date) {
 				if (date == "date1") {
 					this.dateString1 = val; //这是日期时间  需要获取时间戳
-					this.taskallinfo.start_time = SOtime.time4(val);
+					this.taskallinfo.start_time = SOtime.time4(val) / 1000; //换算为10位
 				} else {
 					this.dateString2 = val;
-					this.taskallinfo.end_time = SOtime.time4(val);
+					this.taskallinfo.end_time = SOtime.time4(val) / 1000;
 					//console.log(SOtime.time4(val)) // 1593790157203 number
 				}
 			},
@@ -612,15 +702,15 @@
 				switch (e.currentTarget.id) {
 					case "ttime":
 						this.cindex = e.detail.value;
-						this.taskallinfo.limit_time = this.ttime[
+						this.taskallinfo.ttimeid = this.ttimelist[
 							e.detail.value
-						];
+						].id;
 						break;
 					case "etime":
 						this.dindex = e.detail.value;
-						this.taskallinfo.check_time = this.etime[
+						this.taskallinfo.etimeid = this.etimelist[
 							e.detail.value
-						];
+						].id;
 						break;
 				}
 			},
@@ -635,9 +725,24 @@
 					sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ["album"], //从相册选择
 					success: res => {
-						that.imginfo = res.tempFilePaths;
-						that.submitinfo("imginfo"); //执行步骤添加
-						//that.showtips('上传成功，已加入步骤流程！')
+						that.imginfo = res.tempFilePaths[0];
+						// 上传图片
+						// 做成一个上传对象
+						var uper = uni.uploadFile({
+							// 需要上传的地址
+							url: that.$host + "upimg",
+							// filePath  需要上传的文件
+							filePath: that.imginfo,
+							name: "file",
+							success: res1 => {
+								// 显示上传信息
+								that.imginfo = res1.data; //在数据库中 content字段的 字符串
+								//console.log(that.imginfo)
+								that.showtips("上传成功，已加入步骤流程！");
+								that.submitinfo("imginfo"); //执行步骤添加
+							},
+							fail: e => {}
+						});
 					}
 				});
 			},
@@ -655,10 +760,23 @@
 					confirmText: "确定",
 					success: res => {
 						if (res.confirm) {
-							this.dolist.splice(
-								e.currentTarget.dataset.index,
-								1
-							);
+							var i = e.currentTarget.dataset.index;
+							if (_this.dolist[i].type == "1") {
+								uni.request({
+									url: _this.$host + "delimg",
+									method: "POST",
+									data: JSON.stringify(
+										_this.dolist[i].content
+									),
+									success: res => {
+										console.log(res.data);
+										this.dolist.splice(i, 1); //从数组中删除一位
+									},
+									fail: res => {
+										console.log(res.data);
+									}
+								});
+							}
 						}
 					}
 				});

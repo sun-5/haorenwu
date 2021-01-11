@@ -6,15 +6,15 @@
 		</cu-custom>
 		<view class="header" v-bind:class="{ status: isH5Plus }">
 			<view class="userinfo">
-				<view class="logined" v-if="islogin">
+				<view class="logined" v-if="hasLogin">
 					<view class="face"
-						><image :src="userinfo.face"></image
+						><image :src="userinfo.avator"></image
 					></view>
 					<view class="info">
-						<view class="username">{{ userinfo.username }}</view>
-						<view class="integral">等级:V{{ userinfo.level }}</view>
+						<view class="username">{{ userinfo.uname }}</view>
+						<view class="integral">id:{{ userinfo.uid }}</view>
 						<view class="integral reputation"
-							>信誉分:{{ userinfo.reputation }}</view
+							>信誉:12345</view
 						>
 					</view>
 				</view>
@@ -100,13 +100,29 @@
 				<image class="to" src="/static/PersonalCenter/to.png"></image>
 			</view>
 		</view>
+		<wButton
+			v-show="hasLogin"
+			class="wbutton"
+			text="退 出 登 录"
+			:rotate="isRotate"
+			@click="logout"
+		></wButton>
 	</view>
 </template>
 <script>
+	import wButton from "@/components/watch-login/watch-button.vue"; //button
+	import { mapState, mapMutations } from "vuex";
 	export default {
+		//组件中使用computed获取store里的数据
+		computed: {
+			  ...mapState(["hasLogin", "userinfo"]) //获取vuex状态管理中的数据	
+		},
+		components: {
+			wButton
+		},
 		data() {
 			return {
-				islogin:false,
+				isRotate: false,
 				PageCur: "my",
 				qiandao: true,
 				//#ifdef APP-PLUS
@@ -115,59 +131,58 @@
 				//#ifndef APP-PLUS
 				isH5Plus: false,
 				//#endif
-				userinfo: {},
+				//userinfo: {},
 				orderTypeLise: [
 					//name-标题 icon-图标 badge-角标
-					{ name: '待提交', icon: 'task_ti.png', badge: 5},
-					{ name: '审核中', icon: 'task_shen.png', badge: 2 },
-					{ name: '不合格', icon: 'task_no.png', badge: 3 },
-					{ name: '已完成', icon: 'task_end.png', badge: 0 }
+					{ name: "待提交", icon: "task_ti.png", badge: 5 },
+					{ name: "审核中", icon: "task_shen.png", badge: 2 },
+					{ name: "不合格", icon: "task_no.png", badge: 3 },
+					{ name: "已完成", icon: "task_end.png", badge: 0 }
 				],
-				orderTypeLise2:[
-					{ name: '金币', icon: '1104' },
-					{ name: '余额', icon: '120.20'},
-					{ name: '总收益', icon: '300.50' },
-					{ name: '总完成', icon: '20' }
+				orderTypeLise2: [
+					{ name: "金币", icon: "1104" },
+					{ name: "余额", icon: "120.20" },
+					{ name: "总收益", icon: "300.50" },
+					{ name: "总完成", icon: "20" }
 				],
 
 				severList: [
-					[{ name: '我的发布', icon: 'renw.png' },{ name: '金币兑换', icon: 'mingxi.png' },{ name: '我的收藏', icon: 'point.png' }, { name: '优惠券', icon: 'quan.png' }, { name: '红包', icon: 'momey.png' }],
 					[
-						{ name: '抽奖', icon: 'choujiang.png' },
-						{ name: '收货地址', icon: 'addr.png' },
-						{ name: '银行卡', icon: 'bank.png' },
-						{ name: '安全中心', icon: 'security.png' },
-						{ name: '在线客服', icon: 'kefu.png' }
+						{ name: "我的发布", icon: "renw.png" },
+						{ name: "金币兑换", icon: "mingxi.png" },
+						{ name: "我的收藏", icon: "point.png" },
+						{ name: "优惠券", icon: "quan.png" },
+						{ name: "红包", icon: "momey.png" }
+					],
+					[
+						{ name: "抽奖", icon: "choujiang.png" },
+						{ name: "收货地址", icon: "addr.png" },
+						{ name: "银行卡", icon: "bank.png" },
+						{ name: "安全中心", icon: "security.png" },
+						{ name: "在线客服", icon: "kefu.png" }
 					]
 				]
 			};
 		},
 		onLoad() {
 			//加载
-			this.init();
+			//console.log(this.userinfo)
+		
 		},
 		methods: {
-			goLogin(){
+			...mapMutations(["logout"]),
+			goLogin() {
 				uni.navigateTo({
-					url:'/pages/login/login'
-				})
+					url: "/pages/login/login"
+				});
 			},
-			singIn(){
-				if(!this.islogin){
+			singIn() {
+				if (!this.hasLogin) {
 					uni.showToast({
-					title:'请先登录！',
-					icon: 'none'
-					})
+						title: "请先登录！",
+						icon: "none"
+					});
 				}
-			},
-			init() {
-				//用户信息
-				this.userinfo = {
-					face: '/static/PersonalCenter/face.jpeg',
-					username: 'VIP会员10240',
-					level: '2',
-					reputation: '115'
-				};
 			},
 			//用户点击订单类型
 			toOrderType(index) {
@@ -182,5 +197,5 @@
 </script>
 
 <style lang="scss">
-	@import "./my.scss"
+	@import "./my.scss";
 </style>

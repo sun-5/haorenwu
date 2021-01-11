@@ -59,51 +59,19 @@
 						tip: "暂无相关数据"
 					}
 				},
-				dataList: [
-					{
-						id: "1",
-						titleImg: "/static/images/banner/banner1.jpg",
-						title: "填写邀请码，完成任务获取奖金！",
-						cate: "下载",
-						stitle: "APP拉新",
-						money: 5.8,
-						already: 15,
-						resnum: 20
-					},
-					{
-						id: "2",
-						titleImg: "",
-						title: "填写邀请码，完成任务获取奖金！",
-						cate: "下载",
-						stitle: "APP拉新",
-						money: 5.8,
-						already: 15,
-						resnum: 20
-					},
-					{
-						id: "3",
-						titleImg: "/static/images/banner/banner1.jpg",
-						title: "填写邀请码，完成任务获取奖金！",
-						cate: "下载",
-						stitle: "APP拉新",
-						money: 5.8,
-						already: 15,
-						resnum: 20
-					},
-					{
-						id: "4",
-						titleImg: "/static/images/banner/banner1.jpg",
-						title: "填写邀请码，完成任务获取奖金！",
-						cate: "下载",
-						stitle: "APP拉新",
-						money: 5.8,
-						already: 15,
-						resnum: 20
-					}
-				]
+				dataList: []
 			};
 		},
-		onLoad() {},
+		onLoad() {
+			var _this = this;
+			uni.request({
+				url:_this.$host+'getTask',
+				method:"GET",
+				success:res=>{
+					_this.dataList = res.data;
+				}
+			})
+		},
 		onHide() {},
 		methods: {
 		
