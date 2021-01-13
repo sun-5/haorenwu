@@ -103,8 +103,8 @@
 	.buttonBorder{
 	    border: none ;
 	    border-radius: 2.5rem ;
-	    -webkit-box-shadow: 0 0 60rpx 0 rgba(0,0,0,.2) ;
-	    box-shadow: 0 0 60rpx 0 rgba(0,0,0,.2) ;
+	    -webkit-box-shadow: 0 0 15rpx 0 rgba(0,0,0,.2) ;
+	    box-shadow: 0 0 15rpx 0 rgba(0,0,0,.2) ;
 	    -webkit-transition: all 0.4s cubic-bezier(.57,.19,.51,.95);
 	    -moz-transition: all 0.4s cubic-bezier(.57,.19,.51,.95);
 	    -ms-transition: all 0.4s cubic-bezier(.57,.19,.51,.95);

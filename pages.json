@@ -49,11 +49,29 @@
             "path" : "pages/login/login",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "登陆页",
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/login/forget",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "忘记密码",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/login/register",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "账号注册",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

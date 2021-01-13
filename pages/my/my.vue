@@ -8,14 +8,12 @@
 			<view class="userinfo">
 				<view class="logined" v-if="hasLogin">
 					<view class="face"
-						><image :src="userinfo.avator"></image
+						><image :src="$siteroot + userinfo.avator"></image
 					></view>
 					<view class="info">
 						<view class="username">{{ userinfo.uname }}</view>
 						<view class="integral">id:{{ userinfo.uid }}</view>
-						<view class="integral reputation"
-							>信誉:12345</view
-						>
+						<view class="integral reputation">信誉:12345</view>
 					</view>
 				</view>
 				<view class="nologin" v-else @click="goLogin">
@@ -60,29 +58,83 @@
 
 		<view class="orders">
 			<view class="box">
-				<view
-					class="label"
-					v-for="(row, index) in orderTypeLise"
-					:key="row.name"
-					hover-class="none"
-					@tap="toOrderType(index)"
-				>
-					<view class="label2">
-						<view class="icon">
-							<view class="badge" v-if="row.badge > 0"
-								>{{ row.badge }}</view
-							>
-							<image
-								:src="'/static/PersonalCenter/' + row.icon"
-							></image>
+				<view class="title text-center"> 我的接单 </view>
+				<view class="labelbox">
+					<view
+						class="label"
+						v-for="(row, index) in orderTypeLise"
+						:key="row.name"
+						hover-class="none"
+						@tap="toOrderType(index)"
+					>
+						<view class="label2">
+							<view class="icon">
+								<view class="badge" v-if="row.badge > 0"
+									>{{ row.badge }}</view
+								>
+								<image
+									:src="'/static/PersonalCenter/' + row.icon"
+								></image>
+							</view>
+							<text>{{ row.name }}</text>
 						</view>
-						<text>{{ row.name }}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-
-		<view class="list" v-for="(list, list_i) in severList" :key="list_i">
+		<view class="orders">
+			<view class="box">
+				<view class="title text-center"> 我的发布</view>
+				<view class="labelbox">
+					<view
+						class="label"
+						v-for="(row, index) in orderTypeLise3"
+						:key="row.name"
+						hover-class="none"
+						@tap="toOrderType(index)"
+					>
+						<view class="label2">
+							<view class="icon">
+								<view class="badge" v-if="row.badge > 0"
+									>{{ row.badge }}</view
+								>
+								<image
+									:src="'/static/PersonalCenter/' + row.icon"
+								></image>
+							</view>
+							<text>{{ row.name }}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="orders">
+			<view class="box">
+				<view class="title text-center">常用</view>
+				<view class="labelbox tool">
+					<view
+						class="label"
+						v-for="(row, index) in orderTypeLise4"
+						:key="row.name"
+						hover-class="none"
+						@tap="toOrderType(index)"
+					>
+						<view class="label2">
+							<view class="icon">
+								<view class="badge" v-if="row.badge > 0"
+									>{{ row.badge }}</view
+								>
+								<image
+									:src="'/static/PersonalCenter/' + row.icon"
+								></image>
+							</view>
+							<text>{{ row.name }}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+<!-- 		<view class="list" v-for="(list, list_i) in severList" :key="list_i">
 			<view
 				class="li"
 				v-for="(li, li_i) in list"
@@ -99,7 +151,7 @@
 				<view class="text">{{ li.name }}</view>
 				<image class="to" src="/static/PersonalCenter/to.png"></image>
 			</view>
-		</view>
+		</view> -->
 		<wButton
 			v-show="hasLogin"
 			class="wbutton"
@@ -115,7 +167,7 @@
 	export default {
 		//组件中使用computed获取store里的数据
 		computed: {
-			  ...mapState(["hasLogin", "userinfo"]) //获取vuex状态管理中的数据	
+			...mapState(["hasLogin", "userinfo"]) //获取vuex状态管理中的数据
 		},
 		components: {
 			wButton
@@ -123,7 +175,7 @@
 		data() {
 			return {
 				isRotate: false,
-				PageCur: "my",
+	
 				qiandao: true,
 				//#ifdef APP-PLUS
 				isH5Plus: true,
@@ -145,7 +197,21 @@
 					{ name: "总收益", icon: "300.50" },
 					{ name: "总完成", icon: "20" }
 				],
-
+				orderTypeLise3:[
+					//name-标题 icon-图标 badge-角标
+					{ name: "待支付", icon: "pay.png", badge: 3},
+					{ name: "审核中", icon: "checking.png", badge: 2 },
+					{ name: "待整改", icon: "gai.png", badge: 1},
+					{ name: "已上架", icon: "shangjia.png", badge: 0 }
+				],
+				orderTypeLise4:[
+					//name-标题 icon-图标 badge-角标
+					{ name: "我的收藏", icon: "star.png", badge: 0 },
+					{ name: "个人主页", icon: "index.png", badge: 0},
+					{ name: "帮助反馈", icon: "help.png", badge: 0},
+					{ name: "代理加盟", icon: "dai.png", badge: 0 } 
+				 
+				],
 				severList: [
 					[
 						{ name: "我的发布", icon: "renw.png" },
@@ -167,7 +233,6 @@
 		onLoad() {
 			//加载
 			//console.log(this.userinfo)
-		
 		},
 		methods: {
 			...mapMutations(["logout"]),
@@ -198,4 +263,5 @@
 
 <style lang="scss">
 	@import "./my.scss";
+
 </style>

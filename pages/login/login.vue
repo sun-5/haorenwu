@@ -113,10 +113,11 @@
 					},
 					success: e => {
 						//console.log("login success", e.data);
+							uni.hideLoading();
 						if (e.data.code == 1) {
 							_this.login(e.data);//获取信息存入状态和缓存
 							// uni.navigateBack();
-								history.back();
+							history.back();
 						} else {
 							uni.showModal({
 								content: e.data.msg,
@@ -125,6 +126,7 @@
 						}
 					},
 					fail: e => {
+						uni.hideLoading();
 						uni.showModal({
 							content: JSON.stringify(e),
 							showCancel: false

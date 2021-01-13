@@ -35,18 +35,17 @@
 				<tasklist :taskdata="dataList" v-if="dataList!==''"></tasklist>
 			</view>
 		</mescroll-body>
-	 
 	</view>
 </template>
 
 <script>
+	let _this;
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	export default {
 		mixins: [MescrollMixin], // 使用mixin
 
 		data() {
 			return {
-				PageCur: "index",
 				// 下拉刷新的配置(可选, 绝大部分情况无需配置)
 				downOption: {},
 				// 上拉加载的配置(可选, 绝大部分情况无需配置)
@@ -54,7 +53,7 @@
 					page: {
 						size: 10 // 每页数据的数量,默认10
 					},
-					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
+					noMoreSize: 20, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
 					empty: {
 						tip: "暂无相关数据"
 					}
@@ -63,18 +62,13 @@
 			};
 		},
 		onLoad() {
-			var _this = this;
-			uni.request({
-				url:_this.$host+'getTask',
-				method:"GET",
-				success:res=>{
-					_this.dataList = res.data;
-				}
-			})
+			 
+		},
+		mounted() {
+			_this = this;
 		},
 		onHide() {},
 		methods: {
-		
 			// 下拉刷新回调函数
 			downCallback() {
 				// console.log('下拉刷新');
@@ -86,23 +80,24 @@
 				let pageNum = page.num; // 页码, 默认从1开始
 				let pageSize = page.size; // 页长, 默认每页10条
 				uni.request({
-					url: "?pageNum=" + pageNum + "&pageSize=" + pageSize,
-					success: data => {
+					url:_this.$host +"getTask?pageNum=" +pageNum +"&pageSize=" +pageSize,
+					success: res => {
 						// 接口返回的当前页数据列表 (数组)
-						let curPageData = data.xxx;
+						console.log(res.data)
+						let curPageData = res.data.task;
 						// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
-						// let curPageLen = curPageData.length;
-						let curPageLen = 20;
+						let curPageLen = curPageData.length;
+						console.log(curPageLen)
 						// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
-						let totalPage = data.xxx;
+						let totalPage = res.totalPage;
 						// 接口返回的总数据量(如列表有26个数据,每页10条,共3页; 则totalSize=26)
-						let totalSize = data.xxx;
+						let totalSize = res.total;
 						// 接口返回的是否有下一页 (true/false)
-						let hasNext = data.xxx;
+						let hasNext = res.hasNext;
 
 						//设置列表数据
-						//if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
-						//	this.dataList = this.dataList.concat(curPageData); //追加新数据
+						if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
+						this.dataList = this.dataList.concat(curPageData); //追加新数据
 
 						// 请求成功,隐藏加载状态
 						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
@@ -167,5 +162,4 @@
 	.more {
 		color: #999;
 	}
-
 </style>
